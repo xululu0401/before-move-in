@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搬进去前那晚的客厅</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f3efe8; color: #2a2622; line-height: 1.6; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 20px 14px 40px; }
+  h1 { font-size: 25px; letter-spacing: 1px; }
+  .lead { color: #6a6157; font-size: 14px; margin: 4px 0 14px; }
+  .card { background: #fff; border-radius: 8px; padding: 14px; border: 1px solid #ddd4c6; margin-bottom: 14px; min-width: 0; }
+  .card h2 { font-size: 15px; color: #6a6157; font-weight: 600; margin-bottom: 8px; overflow-wrap: anywhere; }
+  input { font: inherit; font-size: 14px; padding: 4px 6px; border: 1px solid #bcb2a2; border-radius: 5px; width: 100%; min-width: 0; background: #fdfbf7; font-variant-numeric: tabular-nums; }
+  .bad { border-color: #b23a2b !important; background: #fff0ec !important; }
+  label { font-size: 12px; color: #7a7064; display: block; }
+  button { font: inherit; font-size: 13px; padding: 6px 11px; border-radius: 5px; border: 1px solid #7a4b2a; background: #7a4b2a; color: #fff; cursor: pointer; }
+  button.ghost { background: #fff; color: #7a4b2a; }
+  button.x { padding: 2px 8px; background: #fff; color: #8a2a1b; border-color: #d7b0a6; }
+  button.sm { padding: 2px 8px; font-size: 12px; }
+  button:disabled { opacity: .45; cursor: default; }
+  .top { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px; align-items: end; }
+  @media (max-width: 560px) { .top { grid-template-columns: minmax(0, 1fr); } }
+  .presets, .dl { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .err { display: none; background: #fff0ec; border: 1px solid #e0b2a7; color: #8a2a1b; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; overflow-wrap: anywhere; }
+  /* 心里价表：行 = 人，列 = 房 */
+  .tw { overflow-x: auto; }
+  table.m { border-collapse: collapse; width: 100%; min-width: 560px; font-variant-numeric: tabular-nums; }
+  table.m th, table.m td { padding: 5px 5px; border-bottom: 1px solid #ece5da; vertical-align: bottom; }
+  table.m th { font-weight: 600; font-size: 12px; color: #7a7064; text-align: left; min-width: 96px; }
+  table.m td.sum { font-size: 12px; white-space: nowrap; text-align: right; color: #6a6157; }
+  table.m td.sum.off { color: #a2421f; font-weight: 600; }
+  table.m td.who { min-width: 90px; }
+  table.m .mine input { background: #f6ead9; border-color: #b0835a; font-weight: 600; }
+  .muted { color: #7a7064; font-size: 12px; }
+  /* 门牌 */
+  #summary { font-size: 20px; font-weight: 700; overflow-wrap: anywhere; margin-bottom: 10px; }
+  .doors { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .door { border: 2px solid #7a4b2a; border-radius: 10px 10px 2px 2px; padding: 12px 12px 10px; background: #fbf6ee; position: relative; min-width: 0; }
+  .door::after { content: ""; position: absolute; right: 12px; top: 50%; width: 8px; height: 8px; border-radius: 50%; background: #b0835a; }
+  .door .rn { font-size: 13px; color: #6a6157; overflow-wrap: anywhere; padding-right: 16px; }
+  .door .pn { font-size: 18px; font-weight: 700; overflow-wrap: anywhere; padding-right: 16px; }
+  .door .pr { font-size: 26px; font-weight: 700; color: #7a4b2a; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .door .pr.neg { color: #a2421f; }
+  .door .gn { font-size: 12px; color: #4f6b3a; }
+  #facts { margin: 12px 0 0 18px; font-size: 14px; } #facts li { margin: 3px 0; overflow-wrap: anywhere; }
+  /* 对照表 */
+  table.t { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 520px; }
+  table.t th, table.t td { padding: 4px 6px; border-bottom: 1px solid #ece5da; text-align: right; white-space: nowrap; }
+  table.t th:first-child, table.t td:first-child { text-align: left; white-space: normal; overflow-wrap: anywhere; min-width: 7em; }
+  table.t th { color: #7a7064; font-weight: 600; font-size: 12px; }
+  table.t td.own { background: #f6ead9; font-weight: 700; }
+  table.t td.envy { color: #a2421f; font-weight: 600; }
+  table.t tr.foot td { color: #6a6157; font-size: 12px; }
+  #sugs { display: grid; gap: 8px; }
+  .sug { display: flex; gap: 10px; align-items: center; justify-content: space-between; border: 1px solid #ece5da; border-radius: 6px; padding: 8px 10px; }
+  .sug span { min-width: 0; overflow-wrap: anywhere; font-size: 14px; } .sug button { flex: none; }
+  @media (max-width: 480px) { .sug { flex-direction: column; align-items: stretch; } }
+  .how { font-size: 13px; color: #4a443d; } .how p { margin: 6px 0; } .how b { color: #2a2622; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>搬进去前那晚的客厅</h1>
+  <p class="lead">几个人合租一套房，房间有大有小，房租怎么分才没人觉得亏？每个人给每间房写个「心里价」，这里算出谁住哪间、每间付多少，保证谁都不想跟别人换。默认数据是虚构的。</p>
+
+  <div class="card">
+    <div class="top">
+      <div><label for="rent">每月总租金（元）</label><input id="rent" inputmode="decimal"></div>
+      <p class="muted">心里价：你觉得这间每月值多少钱。<b>每个人写的几格加起来要正好等于总租金</b>，写不齐就点那一行的「凑齐」按比例补。</p>
+    </div>
+    <div class="tw" style="margin-top:10px"><table class="m" id="grid"></table></div>
+    <div class="presets"><button class="ghost" id="addRow">加一间房和一个人</button><button class="ghost" id="delRow">去掉最后一间和最后一个人</button></div>
+    <div class="presets" id="presets"></div>
+  </div>
+
+  <div class="err" id="error"></div>
+
+  <div id="out">
+    <div class="card">
+      <h2>门上贴的条</h2>
+      <div id="summary"></div>
+      <div class="doors" id="doors"></div>
+      <ul id="facts"></ul>
+    </div>
+    <div class="card">
+      <h2>每个人看每间房：心里价 − 要付的（底色是自己住的那间）</h2>
+      <div class="tw"><table class="t" id="gainTbl"></table></div>
+      <p class="muted" style="margin-top:6px">每一行里底色那格最大（或并列最大），就是「不眼红」：照这个价，谁都不想跟别人换。</p>
+    </div>
+    <div class="card">
+      <h2>换成按面积分、或者平摊，会有人眼红吗</h2>
+      <div class="tw"><table class="t" id="altTbl"></table></div>
+    </div>
+    <div class="card" id="sugCard">
+      <h2>换个条件看看（点一下代回去重算）</h2>
+      <div id="sugs"></div>
+    </div>
+    <div class="card">
+      <h2>带走结果</h2>
+      <div class="dl">
+        <button id="dlCSV">CSV 表格</button><button id="dlMD">Markdown</button><button id="dlPNG">结果卡 PNG</button><button id="dlJSON" class="ghost">JSON 备份</button>
+        <button id="reset" class="ghost">恢复默认</button>
+      </div>
+      <p class="muted" style="margin-top:6px">输入自动保存在这台设备的浏览器里，刷新还在。</p>
+    </div>
+  </div>
+
+  <div class="card how">
+    <h2>怎么算的</h2>
+    <p><b>先分房。</b>把所有「谁住哪间」的分法（3 个人 6 种，6 个人 720 种）全试一遍，挑每个人对自己那间的心里价加起来最大的那种。只有这样分，才可能定出一组谁都不眼红的价格。</p>
+    <p><b>再定价。</b>「赚到」= 自己写的心里价 − 实际要付的。不眼红 = 每个人在自己那间赚到的，不少于他在别人那间能赚到的。在这个前提下，让赚得最少的那个人尽量多。几间房的价格加起来正好等于总租金。</p>
+    <p><b>取整到分。</b>先向下取整，差的几分钱补给小数部分最大的几间，总数一分不差；这样最多可能差 1–2 分钱的眼红。</p>
+    <p><b>按面积分 / 平摊。</b>用同一张心里价表检查：照那个价，有没有人宁可去住别人那间。</p>
+    <p class="muted">不做：押金、水电网分摊、中途有人搬走、两人合住一间、合同和法律问题。心里价是每个人自己的估计，写得不老实结果就不准；这是一种分法，最后还得大家商量着定。</p>
+  </div>
+</div>
+
+  <script>
+/* 搬进去前那晚的客厅 · 计算核心（浏览器里挂 window.AppCore，Node 里 module.exports）
+ * n 个人合租 n 间房，每月总租金 R。每个人给每间房写一个「心里价」：
+ *   我觉得这间每月值多少钱，一个人写的几格加起来正好等于总租金（这样每个人的尺子一样长）。
+ * 1. 分房：枚举全部 n! 种「谁住哪间」，取心里价加起来最大的那种（并列时取枚举顺序第一个，并报告并列几种）。
+ * 2. 定价：在「谁都不眼红别人那间」的约束下，让最吃亏那个人的「赚到」（心里价 − 实付）尽量大。
+ *    记 u_i 为第 i 人赚到，r_i 为他住的房。不眼红：u_i ≥ v_i(r_k) − p(r_k) = u_k + (v_i(r_k) − v_k(r_k))。
+ *    这是一组差分约束；取 L_i = 从虚拟起点出发的最长路（各人自身 0 边），则
+ *    t* = (Σ v_i(r_i) − R − Σ L_i) ÷ n，u_i = t* + L_i，p(r_i) = v_i(r_i) − u_i。min u = t* 即最优（证明见需求简报）。
+ * 3. 取整到分：先向下取整，再按小数部分从大到小补 1 分，保证加起来正好等于总租金。
+ * 金额内部一律用「分」整数，避免浮点误差。 */
+(function (root) {
+  'use strict';
+  const MINN = 2, MAXN = 6;
+
+  function round(x, d) { const m = Math.pow(10, d); return Math.round((x + (x >= 0 ? 1 : -1) * 1e-12) * m) / m; }
+  function fmt(x, d) {
+    const r = round(x, d);
+    let s = Math.abs(r).toFixed(d);
+    if (d > 0) s = s.replace(/\.?0+$/, '');
+    const parts = s.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (r < 0 ? '-' : '') + parts.join('.');
+  }
+  /* 分 → ¥x.xx；整元时省掉 .00 */
+  function money(c) {
+    const neg = c < 0; c = Math.abs(Math.round(c));
+    const y = Math.floor(c / 100), f = c % 100;
+    const s = String(y).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (f ? '.' + String(f).padStart(2, '0') : '');
+    return (neg ? '-' : '') + '¥' + s;
+  }
+
+  function err(message, field) { const e = new Error(message); e.field = field; return e; }
+  function num(v, field, label, lo, hi, opt) {
+    opt = opt || {};
+    const s = String(v == null ? '' : v).trim().replace(/[,，]/g, '').replace(/^¥/, '');
+    if (s === '') throw err(label + '没填', field);
+    if (!/^[+-]?(\d+\.?\d*|\.\d+)$/.test(s)) throw err(label + '要填数字（现在是「' + String(v).slice(0, 12) + '」）', field);
+    const x = Number(s);
+    if (x < lo || x > hi) throw err(label + '要在 ' + fmt(lo, 2) + ' 到 ' + fmt(hi, 2) + ' 之间', field);
+    if (opt.pos && !(x > 0)) throw err(label + '要大于 0', field);
+    if (Math.abs(x * 100 - Math.round(x * 100)) > 1e-6) throw err(label + '最多两位小数', field);
+    return x;
+  }
+  const cents = (x) => Math.round(x * 100);
+
+  function parse(st) {
+    if (!st || typeof st !== 'object') throw err('没有输入', null);
+    const P = {};
+    P.rent = num(st.rent, 'rent', '每月总租金', 100, 1000000, { pos: true });
+    P.R = cents(P.rent);
+    const rooms = Array.isArray(st.rooms) ? st.rooms : [];
+    const people = Array.isArray(st.people) ? st.people : [];
+    if (rooms.length < MINN) throw err('至少要 ' + MINN + ' 间房、' + MINN + ' 个人', 'addRow');
+    if (rooms.length > MAXN) throw err('最多 ' + MAXN + ' 间房', 'addRow');
+    if (people.length !== rooms.length) throw err('人数要和房间数一样（现在 ' + people.length + ' 人、' + rooms.length + ' 间）', 'addRow');
+    const n = rooms.length; P.n = n;
+    P.rooms = rooms.map((r, j) => {
+      const name = String(r && r.name != null ? r.name : '').trim().slice(0, 16) || ('第 ' + (j + 1) + ' 间');
+      const area = num(r && r.area, 'rm-' + j + '-area', '「' + name + '」的面积', 0, 1000, { pos: true });
+      return { name, area };
+    });
+    const seenR = {};
+    P.rooms.forEach((r, j) => { if (seenR[r.name]) throw err('有两间房都叫「' + r.name + '」，改个名字好区分', 'rm-' + j + '-name'); seenR[r.name] = 1; });
+    const seenP = {};
+    P.people = people.map((p, i) => {
+      const name = String(p && p.name != null ? p.name : '').trim().slice(0, 12) || ('第 ' + (i + 1) + ' 个人');
+      if (seenP[name]) throw err('有两个人都叫「' + name + '」，改个名字好区分', 'pp-' + i + '-name');
+      seenP[name] = 1;
+      const b = Array.isArray(p && p.bids) ? p.bids : [];
+      const bids = P.rooms.map((r, j) => cents(num(b[j], 'bd-' + i + '-' + j, name + '给「' + r.name + '」的心里价', 0, P.rent)));
+      const sum = bids.reduce((a, x) => a + x, 0);
+      if (sum !== P.R) throw err(name + '写的几格加起来是 ' + money(sum) + '，要正好等于总租金 ' + money(P.R) + '（' + (sum > P.R ? '多了 ' : '还差 ') + money(Math.abs(sum - P.R)) + '）；可以点这一行的「凑齐」按比例补', 'sum-' + i);
+      return { name, bids };
+    });
+    return P;
+  }
+
+  /* 全排列（字典序）。perm[i] = 第 i 个人住的房间下标 */
+  function perms(n) {
+    const out = [], a = [], used = [];
+    (function go() {
+      if (a.length === n) { out.push(a.slice()); return; }
+      for (let j = 0; j < n; j++) if (!used[j]) { used[j] = 1; a.push(j); go(); a.pop(); used[j] = 0; }
+    })();
+    return out;
+  }
+  function welfare(V, pm) { let s = 0; for (let i = 0; i < pm.length; i++) s += V[i][pm[i]]; return s; }
+  function bestAssign(V) {
+    const all = perms(V.length);
+    let best = null, W = -Infinity, ties = 0;
+    all.forEach((pm) => { const w = welfare(V, pm); if (w > W) { W = w; best = pm; ties = 1; } else if (w === W) ties++; });
+    return { perm: best, W, ties, count: all.length };
+  }
+
+  /* 给定分房（必须是心里价总和最大的），求最大化最小赚到的不眼红价格（分，可带小数） */
+  function fairPrices(V, perm, R) {
+    const n = V.length;
+    /* c[i][k] = v_i(r_k) − v_k(r_k)：i 眼红 k 的门槛 */
+    const L = new Array(n).fill(0);
+    for (let it = 0; it < n + 1; it++) {
+      let ch = false;
+      for (let i = 0; i < n; i++) for (let k = 0; k < n; k++) {
+        if (i === k) continue;
+        const c = V[i][perm[k]] - V[k][perm[k]];
+        if (L[k] + c > L[i] + 1e-9) { L[i] = L[k] + c; ch = true; }
+      }
+      if (!ch) break;
+      if (it === n) throw err('心里价出现了互相眼红的环，说明分房不是总和最大的那种（内部错误）', null);
+    }
+    const S = welfare(V, perm) - R;
+    const t = (S - L.reduce((a, x) => a + x, 0)) / n;
+    const u = L.map((x) => t + x);
+    const price = new Array(n);
+    for (let i = 0; i < n; i++) price[perm[i]] = V[i][perm[i]] - u[i];
+    return { price, u, t, L, S };
+  }
+  /* 分摊到整分：先向下取整，再按小数部分大的先补 1 分 */
+  function toCents(prices, R) {
+    const fl = prices.map((p) => Math.floor(p + 1e-9));
+    let rest = R - fl.reduce((a, x) => a + x, 0);
+    const order = prices.map((p, j) => [p - Math.floor(p + 1e-9), j]).sort((a, b) => b[0] - a[0] || a[1] - b[1]);
+    for (let q = 0; rest > 0; q = (q + 1) % order.length) { fl[order[q][1]]++; rest--; }
+    for (let q = order.length - 1; rest < 0; q = (q - 1 + order.length) % order.length) { fl[order[q][1]]--; rest++; }
+    return fl;
+  }
+  /* 在价格 price（分）、分房 perm 下，每个人看每间房：心里价 − 价格；眼红多少 = 别间最大值 − 自己那间（>0 才算眼红） */
+  function envyTable(V, perm, price) {
+    return V.map((row, i) => {
+      const g = row.map((v, j) => v - price[j]);
+      const own = g[perm[i]];
+      let worst = 0, at = -1;
+      g.forEach((x, j) => { if (j !== perm[i] && x - own > worst) { worst = x - own; at = j; } });
+      return { gain: g, own, envy: worst, envyRoom: at };
+    });
+  }
+  function splitByArea(P) {
+    const tot = P.rooms.reduce((a, r) => a + r.area, 0);
+    return toCents(P.rooms.map((r) => P.R * r.area / tot), P.R);
+  }
+  function splitEqual(P) { return toCents(P.rooms.map(() => P.R / P.n), P.R); }
+
+  function calculate(st) {
+    const P = parse(st);
+    const V = P.people.map((p) => p.bids);
+    const A = bestAssign(V);
+    const F = fairPrices(V, A.perm, P.R);
+    const price = toCents(F.price, P.R);
+    const env = envyTable(V, A.perm, price);
+    const maxEnvy = Math.max.apply(null, env.map((e) => e.envy));
+    const owner = new Array(P.n); A.perm.forEach((j, i) => { owner[j] = i; });
+    const alt = [['按心里价（本工具）', price], ['按面积分', splitByArea(P)], ['平摊', splitEqual(P)]].map((x) => {
+      const e = envyTable(V, A.perm, x[1]);
+      return { label: x[0], price: x[1], envy: e, maxEnvy: Math.max.apply(null, e.map((q) => q.envy)), envious: e.filter((q) => q.envy > 0).length };
+    });
+    const r = { P, V, perm: A.perm, owner, W: A.W, ties: A.ties, nperm: A.count, exact: F, price, envy: env, maxEnvy, alt };
+    r.u = env.map((e) => e.own);
+    r.minU = Math.min.apply(null, r.u);
+    r.neg = price.map((p, j) => (p < 0 ? j : -1)).filter((j) => j >= 0);
+    r.facts = facts(r);
+    r.summary = summary(r);
+    return r;
+  }
+
+  function summary(r) {
+    const P = r.P;
+    return P.rooms.map((rm, j) => P.people[r.owner[j]].name + '住' + rm.name + ' ' + money(r.price[j])).join('，') + '，谁都不眼红别人那间';
+  }
+  function facts(r) {
+    const P = r.P, f = [];
+    const lo = r.u.indexOf(r.minU);
+    const hiU = Math.max.apply(null, r.u);
+    f.push((hiU - r.minU <= 1 ? '每个人都觉得自己赚到 ' + money(r.minU) + (hiU > r.minU ? '–' + money(hiU) : '') : '每个人都觉得自己至少赚到 ' + money(r.minU) + '（最少的是' + P.people[lo].name + '）') + '（赚到 = 自己写的心里价 − 实付）；在谁都不眼红的前提下，最吃亏那个人最多只能拿到这么多。');
+    const sumU = r.u.reduce((a, x) => a + x, 0);
+    f.push('按这样分房，' + P.n + ' 个人对自己那间的心里价加起来比总租金多 ' + money(sumU) + '，这笔「赚到」分给了每个人。');
+    const area = r.alt[1];
+    if (area.envious > 0) {
+      const e = area.envy.map((q, i) => [q, i]).filter((x) => x[0].envy > 0).sort((a, b) => b[0].envy - a[0].envy)[0];
+      f.push('如果按面积分（' + P.rooms.map((rm, j) => rm.name + ' ' + money(area.price[j])).join('、') + '），' + P.people[e[1]].name + '会眼红「' + P.rooms[e[0].envyRoom].name + '」，差 ' + money(e[0].envy) + '；一共 ' + area.envious + ' 个人会眼红。');
+    } else f.push('这组心里价下按面积分也没人眼红，两种分法都说得过去。');
+    if (r.ties > 1) f.push('有 ' + r.ties + ' 种分房方式心里价总和一样大，这里取了其中一种；换成另一种，价格不用改，每个人赚到的也一样，可以商量谁住哪间。');
+    if (r.neg.length) f.push('注意：' + r.neg.map((j) => '「' + P.rooms[j].name + '」').join('、') + '算出来是负数，意思是住这间的人还得被别人补钱。通常是有人把某间写得特别低，建议再对一遍心里价。');
+    if (r.maxEnvy > 0) f.push('取整到分后最多有 ' + money(r.maxEnvy) + ' 的误差。');
+    return f;
+  }
+
+  /* 建议：① 没拿到自己最想要那间的人，至少要把那间心里价提高多少（从现住那间挪过来）才能换到；② 总租金谈下来 / 涨上去时各人怎么变 */
+  function scaleRows(st, P, newRent) {
+    const s = JSON.parse(JSON.stringify(st));
+    const NR = cents(newRent);
+    s.rent = String(newRent);
+    s.people = s.people.map((p, i) => {
+      const raw = P.people[i].bids.map((b) => b * NR / P.R);
+      const c = toCents(raw, NR);
+      return Object.assign({}, p, { bids: c.map((x) => String(x / 100)) });
+    });
+    return s;
+  }
+  function suggestions(st, r) {
+    const P = r.P, out = [];
+    for (let i = 0; i < P.n && out.length < 2; i++) {
+      const row = r.V[i];
+      const fav = row.indexOf(Math.max.apply(null, row));
+      const own = r.perm[i];
+      if (fav === own || row[fav] === row[own]) continue;
+      /* 挪 d 元：住 fav 的分房方案总和 +d，住 own 的 −d，其余不变 → 「唯一最优且他住 fav」对 d 单调，二分到元 */
+      const ok = (yuan) => { const V2 = r.V.map((x) => x.slice()); V2[i][fav] += yuan * 100; V2[i][own] -= yuan * 100; const A = bestAssign(V2); return A.perm[i] === fav && A.ties === 1; };
+      let hi = Math.floor(row[own] / 100);
+      if (hi < 1 || !ok(hi)) continue;
+      let lo = 0;
+      while (hi - lo > 1) { const m = (lo + hi) >> 1; if (ok(m)) hi = m; else lo = m; }
+      const d = hi;
+      const s = JSON.parse(JSON.stringify(st));
+      s.people[i].bids[fav] = String((row[fav] + d * 100) / 100);
+      s.people[i].bids[own] = String((row[own] - d * 100) / 100);
+      let r2; try { r2 = calculate(s); } catch (e) { continue; }
+      out.push({ id: 'want-' + i, apply: s,
+        text: P.people[i].name + '要是真想住「' + P.rooms[fav].name + '」：把那间的心里价从 ' + money(row[fav]) + ' 提到 ' + money(row[fav] + d * 100) + '（「' + P.rooms[own].name + '」那格相应降到 ' + money(row[own] - d * 100) + '），就换成' + P.people[i].name + '住，付 ' + money(r2.price[fav]) + '。' });
+    }
+    [-0.05, 0.05].forEach((k) => {
+      const nr = Math.round(P.rent * (1 + k));
+      if (nr < 100) return;
+      const s = scaleRows(st, P, nr);
+      let r2; try { r2 = calculate(s); } catch (e) { return; }
+      out.push({ id: k < 0 ? 'rent-down' : 'rent-up', apply: s,
+        text: '总租金' + (k < 0 ? '谈到 ' : '涨到 ') + money(cents(nr)) + '（每人心里价按比例' + (k < 0 ? '缩' : '放') + '）：' + r2.P.rooms.map((rm, j) => rm.name + ' ' + money(r2.price[j])).join('、') + '。' });
+    });
+    return out;
+  }
+
+  function csvCell(s) { s = String(s); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+  function toCSV(r, when) {
+    const P = r.P, L = [];
+    L.push(['搬进去前那晚的客厅', when].map(csvCell).join(','));
+    L.push(['每月总租金', P.rent].join(','));
+    L.push('');
+    L.push(['房间', '面积(㎡)', '谁住', '按心里价(元)', '按面积(元)', '平摊(元)'].join(','));
+    P.rooms.forEach((rm, j) => L.push([rm.name, rm.area, P.people[r.owner[j]].name, r.price[j] / 100, r.alt[1].price[j] / 100, r.alt[2].price[j] / 100].map(csvCell).join(',')));
+    L.push('');
+    L.push(['心里价(元)'].concat(P.rooms.map((x) => x.name)).concat(['住哪间', '赚到(元)', '最眼红(元)']).map(csvCell).join(','));
+    P.people.forEach((p, i) => L.push([p.name].concat(p.bids.map((b) => b / 100)).concat([P.rooms[r.perm[i]].name, r.u[i] / 100, r.envy[i].envy / 100]).map(csvCell).join(',')));
+    return L.join('\n') + '\n';
+  }
+  function toMD(r, when, sg) {
+    const P = r.P, L = [];
+    L.push('# 搬进去前那晚的客厅', '', '生成时间：' + when + '　每月总租金：' + money(P.R), '', '**' + r.summary + '**', '');
+    L.push('| 房间 | 面积 | 谁住 | 按心里价 | 按面积 | 平摊 |', '|---|---:|---|---:|---:|---:|');
+    P.rooms.forEach((rm, j) => L.push('| ' + rm.name + ' | ' + fmt(rm.area, 2) + ' ㎡ | ' + P.people[r.owner[j]].name + ' | ' + money(r.price[j]) + ' | ' + money(r.alt[1].price[j]) + ' | ' + money(r.alt[2].price[j]) + ' |'));
+    L.push('', '## 每个人看每间房（心里价 − 实付）', '', '| | ' + P.rooms.map((x) => x.name).join(' | ') + ' |', '|---' + '|---:'.repeat(P.n) + '|');
+    P.people.forEach((p, i) => L.push('| ' + p.name + ' | ' + r.envy[i].gain.map((g, j) => (j === r.perm[i] ? '**' + money(g) + '**' : money(g))).join(' | ') + ' |'));
+    L.push('', '粗体是自己住的那间，每行粗体都是最大（或并列最大），所以没人眼红。', '', '## 要点', '');
+    r.facts.forEach((f) => L.push('- ' + f));
+    if (sg && sg.length) { L.push('', '## 换个条件', ''); sg.forEach((s) => L.push('- ' + s.text)); }
+    L.push('', '心里价是每个人自己写的估计，示例数据为虚构。本工具只算一种分法，不替代室友之间的商量。');
+    return L.join('\n') + '\n';
+  }
+
+  const API = { MINN, MAXN, round, fmt, money, cents, parse, perms, welfare, bestAssign, fairPrices, toCents, envyTable, splitByArea, splitEqual, calculate, suggestions, toCSV, toMD };
+  if (typeof module !== 'undefined' && module.exports) module.exports = API;
+  else root.AppCore = API;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+  </script>
+  <script>
+/* 搬进去前那晚的客厅 · 界面层 */
+(function () {
+  'use strict';
+  const C = window.AppCore;
+  const KEY = 'before-move-in:v1';
+  const DEFAULT = {
+    rent: '6000',
+    rooms: [{ name: '主卧带卫生间', area: '18' }, { name: '朝南次卧', area: '12' }, { name: '北边小间', area: '8' }],
+    people: [{ name: '阿杰', bids: ['2900', '1600', '1500'] }, { name: '小雨', bids: ['2500', '2300', '1200'] }, { name: '老周', bids: ['2500', '1700', '1800'] }]
+  };
+  const PRESETS = [
+    ['默认：三个人，一间带卫生间', DEFAULT],
+    ['两个人，一大一小', { rent: '4200', rooms: [{ name: '大间', area: '16' }, { name: '小间', area: '9' }], people: [{ name: '甲', bids: ['2600', '1600'] }, { name: '乙', bids: ['2300', '1900'] }] }],
+    ['四个人，有一间没窗', { rent: '8800', rooms: [{ name: '主卧', area: '17' }, { name: '次卧', area: '13' }, { name: '书房', area: '9' }, { name: '没窗那间', area: '7' }],
+      people: [{ name: '大林', bids: ['3200', '2400', '1900', '1300'] }, { name: '思思', bids: ['3000', '2800', '1800', '1200'] }, { name: '阿凯', bids: ['2700', '2300', '2400', '1400'] }, { name: '小米', bids: ['2600', '2200', '1900', '2100'] }] }],
+    ['有人把一间写得一文不值', { rent: '3000', rooms: [{ name: 'A', area: '10' }, { name: 'B', area: '10' }, { name: 'C', area: '10' }], people: [{ name: '甲', bids: ['3000', '0', '0'] }, { name: '乙', bids: ['3000', '0', '0'] }, { name: '丙', bids: ['0', '0', '3000'] }] }]
+  ];
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const copy = (o) => JSON.parse(JSON.stringify(o));
+  let state = copy(DEFAULT);
+  let last = null;
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* 隐私模式忽略 */ } }
+  function load() {
+    try {
+      const o = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (!o || typeof o !== 'object' || Array.isArray(o) || !Array.isArray(o.rooms) || !Array.isArray(o.people)) return null;
+      const n = Math.min(C.MAXN, Math.max(C.MINN, o.rooms.length));
+      const s = { rent: String(o.rent == null ? '' : o.rent).slice(0, 20), rooms: [], people: [] };
+      for (let j = 0; j < n; j++) { const r = o.rooms[j] || {}; s.rooms.push({ name: String(r.name == null ? '' : r.name).slice(0, 16), area: String(r.area == null ? '' : r.area).slice(0, 12) }); }
+      for (let i = 0; i < n; i++) {
+        const p = o.people[i] || {}; const b = Array.isArray(p.bids) ? p.bids : [];
+        s.people.push({ name: String(p.name == null ? '' : p.name).slice(0, 12), bids: s.rooms.map((_, j) => String(b[j] == null ? '' : b[j]).slice(0, 14)) });
+      }
+      return s;
+    } catch (e) { return null; }
+  }
+  /* 尽量读数字，读不出当 0（只用于显示合计与凑齐，不参与正式计算） */
+  const loose = (v) => { const x = Number(String(v == null ? '' : v).trim().replace(/[,，]/g, '').replace(/^¥/, '')); return isFinite(x) ? x : 0; };
+  function rowSumText(i) {
+    const s = state.people[i].bids.reduce((a, b) => a + Math.round(loose(b) * 100), 0);
+    const R = Math.round(loose(state.rent) * 100);
+    const td = $('sum-' + i); if (!td) return;
+    td.textContent = '合计 ' + C.money(s) + (s === R ? ' ✓' : (s > R ? '（多 ' + C.money(s - R) + '）' : '（差 ' + C.money(R - s) + '）'));
+    td.className = 'sum' + (s === R ? '' : ' off');
+  }
+  function evenUp(i) {
+    const R = Math.round(loose(state.rent) * 100); if (!(R > 0)) return;
+    const b = state.people[i].bids.map((x) => Math.max(0, Math.round(loose(x) * 100)));
+    const t = b.reduce((a, x) => a + x, 0);
+    const raw = t > 0 ? b.map((x) => x * R / t) : b.map(() => R / b.length);
+    state.people[i].bids = C.toCents(raw, R).map((x) => String(x / 100));
+    build(); run();
+  }
+  function build() {
+    const n = state.rooms.length, g = $('grid');
+    let h = '<tr><th>房间 →<br>人 ↓</th>';
+    state.rooms.forEach((r, j) => {
+      h += '<th><label for="rm-' + j + '-name">房间名</label><input id="rm-' + j + '-name" maxlength="16">' +
+        '<label for="rm-' + j + '-area" style="margin-top:3px">面积（㎡）</label><input id="rm-' + j + '-area" inputmode="decimal" maxlength="12"></th>';
+    });
+    h += '<th></th><th></th></tr>';
+    state.people.forEach((p, i) => {
+      h += '<tr><td class="who"><label for="pp-' + i + '-name">名字</label><input id="pp-' + i + '-name" maxlength="12"></td>';
+      state.rooms.forEach((r, j) => { h += '<td id="cell-' + i + '-' + j + '"><label for="bd-' + i + '-' + j + '">心里价</label><input id="bd-' + i + '-' + j + '" inputmode="decimal" maxlength="14"></td>'; });
+      h += '<td class="sum" id="sum-' + i + '"></td><td><button class="ghost sm" data-even="' + i + '">凑齐</button></td></tr>';
+    });
+    g.innerHTML = h;
+    state.rooms.forEach((r, j) => {
+      ['name', 'area'].forEach((k) => { const e = $('rm-' + j + '-' + k); e.value = r[k]; e.addEventListener('input', () => { state.rooms[j][k] = e.value; run(); }); });
+    });
+    state.people.forEach((p, i) => {
+      const e = $('pp-' + i + '-name'); e.value = p.name; e.addEventListener('input', () => { state.people[i].name = e.value; run(); });
+      p.bids.forEach((b, j) => { const q = $('bd-' + i + '-' + j); q.value = b; q.addEventListener('input', () => { state.people[i].bids[j] = q.value; rowSumText(i); run(); }); });
+      rowSumText(i);
+    });
+    [].forEach.call(g.querySelectorAll('[data-even]'), (b) => b.addEventListener('click', () => evenUp(+b.dataset.even)));
+    $('addRow').disabled = n >= C.MAXN; $('delRow').disabled = n <= C.MINN;
+  }
+  function render(r, sg) {
+    const P = r.P;
+    $('summary').textContent = r.summary;
+    $('doors').innerHTML = P.rooms.map((rm, j) => {
+      const i = r.owner[j];
+      return '<div class="door"><div class="rn">' + esc(rm.name) + ' · ' + C.fmt(rm.area, 2) + ' ㎡</div><div class="pn">' + esc(P.people[i].name) + '</div>' +
+        '<div class="pr' + (r.price[j] < 0 ? ' neg' : '') + '">' + C.money(r.price[j]) + '</div><div class="gn">心里价 ' + C.money(r.V[i][j]) + '，赚到 ' + C.money(r.u[i]) + '</div></div>';
+    }).join('');
+    $('facts').innerHTML = r.facts.map((f) => '<li>' + esc(f) + '</li>').join('');
+    /* 标出各人住的格 */
+    P.people.forEach((p, i) => P.rooms.forEach((rm, j) => { const c = $('cell-' + i + '-' + j); if (c) c.className = r.perm[i] === j ? 'mine' : ''; }));
+    let h = '<tr><th>谁 \\ 哪间</th>' + P.rooms.map((x) => '<th>' + esc(x.name) + '</th>').join('') + '<th>想换吗</th></tr>';
+    P.people.forEach((p, i) => {
+      h += '<tr><td>' + esc(p.name) + '</td>' + r.envy[i].gain.map((g, j) => '<td class="' + (j === r.perm[i] ? 'own' : '') + '">' + C.money(g) + '</td>').join('') +
+        '<td>' + (r.envy[i].envy > 0 ? '差 ' + C.money(r.envy[i].envy) : '不换') + '</td></tr>';
+    });
+    h += '<tr class="foot"><td>要付</td>' + r.price.map((x) => '<td>' + C.money(x) + '</td>').join('') + '<td></td></tr>';
+    $('gainTbl').innerHTML = h;
+    let a = '<tr><th>分法</th>' + P.rooms.map((x) => '<th>' + esc(x.name) + '</th>').join('') + '<th>几个人眼红</th><th>最多差</th></tr>';
+    r.alt.forEach((x) => {
+      a += '<tr><td>' + esc(x.label) + '</td>' + x.price.map((p) => '<td>' + C.money(p) + '</td>').join('') +
+        '<td class="' + (x.envious ? 'envy' : '') + '">' + x.envious + ' 人</td><td class="' + (x.maxEnvy > 0 ? 'envy' : '') + '">' + C.money(x.maxEnvy) + '</td></tr>';
+    });
+    $('altTbl').innerHTML = a;
+    $('sugCard').style.display = sg.length ? '' : 'none';
+    $('sugs').innerHTML = '';
+    sg.forEach((x) => {
+      const d = document.createElement('div'); d.className = 'sug';
+      d.innerHTML = '<span>' + esc(x.text) + '</span>';
+      const bt = document.createElement('button'); bt.textContent = '代回去算'; bt.dataset.sug = x.id;
+      bt.addEventListener('click', () => { state = copy(x.apply); fill(); run(); });
+      d.appendChild(bt); $('sugs').appendChild(d);
+    });
+  }
+  function fill() { $('rent').value = state.rent; build(); }
+  function run() {
+    [].forEach.call(document.querySelectorAll('.bad'), (e) => e.classList.remove('bad'));
+    state.people.forEach((p, i) => rowSumText(i));
+    try {
+      const r = C.calculate(state);
+      const sg = C.suggestions(state, r);
+      $('error').style.display = 'none'; $('out').style.display = '';
+      render(r, sg);
+      last = { r, sg };
+    } catch (e) {
+      last = null;
+      [].forEach.call(document.querySelectorAll('.mine'), (c) => { c.className = ''; });
+      if (e.field) { const el = $(e.field); if (el) el.classList.add('bad'); }
+      $('error').textContent = '算不了：' + e.message; $('error').style.display = 'block';
+      $('out').style.display = 'none';
+    }
+    save();
+  }
+
+  /* ── 导出 ── */
+  function stamp() { const d = new Date(), z = (n) => String(n).padStart(2, '0'); return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate()) + ' ' + z(d.getHours()) + ':' + z(d.getMinutes()); }
+  function download(name, blob) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
+  function wrap(g, t, w) {
+    const NOHEAD = '，。、；：！？）」』%';
+    const out = []; let line = [];
+    const toks = String(t).match(/[+-]?¥?[0-9][0-9,.:%]*|[A-Za-z]+|[\s\S]/g) || [];
+    const width = (a) => g.measureText(a.join('')).width;
+    for (const tk of toks) {
+      if (line.length && width(line.concat([tk])) > w) {
+        let carry = [tk];
+        while (line.length > 1 && (NOHEAD.indexOf(carry[0][0]) >= 0 || '（「『'.indexOf(line[line.length - 1]) >= 0)) carry.unshift(line.pop());
+        out.push(line.join(''));
+        line = carry; if (/^\s+$/.test(line[0])) line.shift();
+      } else line.push(tk);
+    }
+    if (line.length) out.push(line.join('')); return out;
+  }
+  function fitText(g, t, w, size, min, bold, FF) {
+    let fs = size; g.font = (bold ? 'bold ' : '') + fs + 'px ' + FF;
+    while (fs > min && g.measureText(t).width > w) { fs -= 1; g.font = (bold ? 'bold ' : '') + fs + 'px ' + FF; }
+    if (g.measureText(t).width <= w) return t;
+    let s = t; while (s.length > 1 && g.measureText(s + '…').width > w) s = s.slice(0, -1);
+    return s + '…';
+  }
+  function drawPNG(Lx) {
+    const r = Lx.r, P = r.P;
+    const Wd = 1080, H = 1350, X = 90, TW = 900;
+    const cv = document.createElement('canvas'); cv.width = Wd; cv.height = H;
+    const g = cv.getContext('2d'), FF = '"PingFang SC","Microsoft YaHei",sans-serif';
+    g.fillStyle = '#f3efe8'; g.fillRect(0, 0, Wd, H);
+    g.fillStyle = '#fff'; g.fillRect(50, 50, Wd - 100, H - 100);
+    g.fillStyle = '#7a7064'; g.font = '26px ' + FF;
+    g.fillText(fitText(g, '搬进去前那晚的客厅 · 每月总租金 ' + C.money(P.R) + ' · ' + P.n + ' 人 ' + P.n + ' 间', TW, 26, 18, false, FF), X, 118);
+    g.fillStyle = '#2a2622'; g.font = 'bold 34px ' + FF;
+    g.fillText(fitText(g, '谁都不想跟别人换', TW, 34, 20, true, FF), X, 176);
+    /* 门：一行最多 3 扇 */
+    const per = Math.min(3, P.n), rows = Math.ceil(P.n / per), gap = 24;
+    const dw = (TW - gap * (per - 1)) / per, dh = rows > 1 ? 190 : 230;
+    let y = 210;
+    P.rooms.forEach((rm, j) => {
+      const cx = X + (j % per) * (dw + gap), cy = y + Math.floor(j / per) * (dh + gap);
+      g.fillStyle = '#fbf6ee'; g.fillRect(cx, cy, dw, dh);
+      g.strokeStyle = '#7a4b2a'; g.lineWidth = 4; g.strokeRect(cx, cy, dw, dh);
+      g.fillStyle = '#b0835a'; g.beginPath(); g.arc(cx + dw - 22, cy + dh / 2, 7, 0, 7); g.fill();
+      const i = r.owner[j];
+      g.fillStyle = '#6a6157'; g.fillText(fitText(g, rm.name + ' · ' + C.fmt(rm.area, 2) + '㎡', dw - 50, 22, 14, false, FF), cx + 18, cy + 40);
+      g.fillStyle = '#2a2622'; g.fillText(fitText(g, P.people[i].name, dw - 50, 30, 16, true, FF), cx + 18, cy + 84);
+      g.fillStyle = r.price[j] < 0 ? '#a2421f' : '#7a4b2a'; g.fillText(fitText(g, C.money(r.price[j]), dw - 50, 44, 20, true, FF), cx + 18, cy + 140);
+      g.fillStyle = '#4f6b3a'; g.fillText(fitText(g, '赚到 ' + C.money(r.u[i]), dw - 50, 20, 13, false, FF), cx + 18, cy + dh - 22);
+    });
+    y += rows * (dh + gap) + 20;
+    /* 三种分法 */
+    g.fillStyle = '#7a7064'; g.font = '22px ' + FF; g.fillText('同一张心里价表，三种分法谁会眼红', X, y); y += 14;
+    const colW = (TW - 260) / P.n;
+    const rh = 40;
+    const hdr = ['分法'].concat(P.rooms.map((x) => x.name)).concat(['眼红']);
+    const drawRow = (cells, yy, head, hiCol) => {
+      cells.forEach((c, k) => {
+        const x0 = k === 0 ? X : (k <= P.n ? X + 200 + (k - 1) * colW : X + 200 + P.n * colW);
+        const w = k === 0 ? 190 : (k <= P.n ? colW - 8 : 60);
+        g.fillStyle = head ? '#7a7064' : (hiCol === k ? '#a2421f' : '#2a2622');
+        g.fillText(fitText(g, c, w, head ? 19 : 21, 12, false, FF), x0, yy);
+      });
+    };
+    y += 30; drawRow(hdr, y, true); y += 10;
+    g.strokeStyle = '#ddd4c6'; g.lineWidth = 1; g.beginPath(); g.moveTo(X, y); g.lineTo(X + TW, y); g.stroke();
+    r.alt.forEach((a) => { y += rh; drawRow([a.label.replace('（本工具）', '')].concat(a.price.map(C.money)).concat([a.envious + ' 人']), y, false, a.envious ? P.n + 1 : -1); });
+    y += 66;
+    /* 每个人看每间房：心里价 − 要付的，自己那间底色 */
+    const bottom = H - 150;
+    const mh = 36 * (P.n + 1) + 40;
+    if (y + mh < bottom - 120) {
+      g.fillStyle = '#7a7064'; g.font = '22px ' + FF; g.fillText('每个人看每间房：心里价 − 要付的（底色 = 自己住的）', X, y); y += 40;
+      drawRow(['谁'].concat(P.rooms.map((x) => x.name)).concat(['想换']), y, true); y += 10;
+      g.strokeStyle = '#ddd4c6'; g.beginPath(); g.moveTo(X, y); g.lineTo(X + TW, y); g.stroke();
+      P.people.forEach((pp, i) => {
+        y += 36;
+        const k = r.perm[i] + 1;
+        g.fillStyle = '#f6ead9'; g.fillRect(X + 200 + (k - 1) * colW - 8, y - 26, colW - 4, 34);
+        drawRow([pp.name].concat(r.envy[i].gain.map(C.money)).concat([r.envy[i].envy > 0 ? '想' : '不换']), y, false, r.envy[i].envy > 0 ? P.n + 1 : -1);
+      });
+      y += 56;
+    }
+    g.font = '23px ' + FF; g.fillStyle = '#2a2622';
+    for (const f of r.facts) {
+      const ls = wrap(g, '· ' + f, TW);
+      if (y + ls.length * 34 > bottom) break;
+      ls.forEach((l) => { g.fillText(l, X, y); y += 34; }); y += 6;
+    }
+    g.fillStyle = '#7a7064'; g.font = '21px ' + FF;
+    wrap(g, '赚到 = 自己写的心里价 − 实付。心里价是每个人自己的估计，示例数据为虚构；这是一种分法，最后还要商量。', TW).forEach((l, i) => g.fillText(l, X, H - 110 + i * 30));
+    return cv;
+  }
+  function backup() {
+    const r = last.r;
+    return { app: '搬进去前那晚的客厅', version: 1, savedAt: stamp(), input: copy(state),
+      result: { summary: r.summary, rent: r.P.R / 100,
+        rooms: r.P.rooms.map((rm, j) => ({ room: rm.name, area: rm.area, who: r.P.people[r.owner[j]].name, pay: r.price[j] / 100, byArea: r.alt[1].price[j] / 100, equal: r.alt[2].price[j] / 100 })),
+        people: r.P.people.map((p, i) => ({ name: p.name, room: r.P.rooms[r.perm[i]].name, gain: r.u[i] / 100, envy: r.envy[i].envy / 100 })),
+        tiedAssignments: r.ties, facts: r.facts } };
+  }
+  function init() {
+    $('rent').addEventListener('input', () => { state.rent = $('rent').value; run(); });
+    $('addRow').addEventListener('click', () => {
+      const n = state.rooms.length; if (n >= C.MAXN) return;
+      state.rooms.push({ name: '第 ' + (n + 1) + ' 间', area: '10' });
+      state.people.forEach((p) => p.bids.push('0'));
+      const R = Math.round(loose(state.rent) * 100);
+      const even = R > 0 ? C.toCents(state.rooms.map(() => R / (n + 1)), R).map((x) => String(x / 100)) : state.rooms.map(() => '');
+      state.people.push({ name: '第 ' + (n + 1) + ' 个人', bids: even });
+      build(); run();
+    });
+    $('delRow').addEventListener('click', () => {
+      if (state.rooms.length <= C.MINN) return;
+      state.rooms.pop(); state.people.pop(); state.people.forEach((p) => p.bids.pop());
+      build(); run();
+    });
+    PRESETS.forEach((p) => {
+      const b = document.createElement('button'); b.className = 'ghost'; b.textContent = p[0];
+      b.addEventListener('click', () => { state = copy(p[1]); fill(); run(); });
+      $('presets').appendChild(b);
+    });
+    $('reset').addEventListener('click', () => { state = copy(DEFAULT); fill(); run(); });
+    $('dlCSV').addEventListener('click', () => { if (last) download('搬进去前那晚的客厅.csv', new Blob(['\ufeff' + C.toCSV(last.r, stamp())], { type: 'text/csv;charset=utf-8' })); });
+    $('dlMD').addEventListener('click', () => { if (last) download('搬进去前那晚的客厅.md', new Blob([C.toMD(last.r, stamp(), last.sg)], { type: 'text/markdown;charset=utf-8' })); });
+    $('dlJSON').addEventListener('click', () => { if (last) download('搬进去前那晚的客厅-备份.json', new Blob([JSON.stringify(backup(), null, 2)], { type: 'application/json' })); });
+    $('dlPNG').addEventListener('click', () => { if (last) drawPNG(last).toBlob((b) => download('搬进去前那晚的客厅-1080x1350.png', b), 'image/png'); });
+    state = load() || copy(DEFAULT);
+    fill(); run();
+    window.__ex = { last: () => last, state: () => state, presets: PRESETS, png: () => last && drawPNG(last).toDataURL('image/png') };
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+  </script>
+</body>
+</html>
